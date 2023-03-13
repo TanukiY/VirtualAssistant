@@ -24,7 +24,19 @@ namespace VirtualAssistant
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            
+            if (tbMsg.Text != "Введите сообщение...")
+            {
+                rtbChat.SelectionAlignment = HorizontalAlignment.Right;
+                rtbChat.AppendText(tbMsg.Text + "\n");
+                rtbChat.SelectionAlignment = HorizontalAlignment.Left;
+                rtbChat.AppendText(tbMsg.Text + "\n");
+            }              
         }
+
+        private void tbMsg_MouseClick(object sender, MouseEventArgs e)
+        {
+            tbMsg.Text = "";
+        }
+
     }
 }

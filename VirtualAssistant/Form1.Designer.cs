@@ -41,17 +41,18 @@
             this.tbMsg.Margin = new System.Windows.Forms.Padding(7);
             this.tbMsg.Multiline = true;
             this.tbMsg.Name = "tbMsg";
-            this.tbMsg.Size = new System.Drawing.Size(361, 79);
+            this.tbMsg.Size = new System.Drawing.Size(341, 79);
             this.tbMsg.TabIndex = 0;
             this.tbMsg.Text = "Введите сообщение...";
+            this.tbMsg.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tbMsg_MouseClick);
             // 
             // btnSend
             // 
             this.btnSend.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnSend.Location = new System.Drawing.Point(391, 676);
+            this.btnSend.Location = new System.Drawing.Point(371, 676);
             this.btnSend.Margin = new System.Windows.Forms.Padding(7);
             this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(72, 79);
+            this.btnSend.Size = new System.Drawing.Size(92, 79);
             this.btnSend.TabIndex = 1;
             this.btnSend.Text = " Send";
             this.btnSend.UseVisualStyleBackColor = true;
