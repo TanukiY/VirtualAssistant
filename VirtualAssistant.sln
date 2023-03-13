@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualAssistant", "VirtualAssistant\VirtualAssistant.csproj", "{575DB997-E8BB-4FD5-A3AB-7789BA9D96CB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{575DB997-E8BB-4FD5-A3AB-7789BA9D96CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{575DB997-E8BB-4FD5-A3AB-7789BA9D96CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{575DB997-E8BB-4FD5-A3AB-7789BA9D96CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{575DB997-E8BB-4FD5-A3AB-7789BA9D96CB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {38DA503C-45EF-4D91-B779-2AE9FD0090F8}
+	EndGlobalSection
+EndGlobal
