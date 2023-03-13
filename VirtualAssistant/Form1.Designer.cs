@@ -31,6 +31,8 @@
             this.tbMsg = new System.Windows.Forms.TextBox();
             this.btnSend = new System.Windows.Forms.Button();
             this.rtbChat = new System.Windows.Forms.RichTextBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbMsg
@@ -61,12 +63,23 @@
             // 
             // rtbChat
             // 
-            this.rtbChat.Location = new System.Drawing.Point(16, 16);
+            this.rtbChat.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbChat.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rtbChat.Location = new System.Drawing.Point(19, 17);
             this.rtbChat.Margin = new System.Windows.Forms.Padding(7);
             this.rtbChat.Name = "rtbChat";
-            this.rtbChat.Size = new System.Drawing.Size(447, 613);
+            this.rtbChat.Size = new System.Drawing.Size(406, 583);
             this.rtbChat.TabIndex = 2;
             this.rtbChat.Text = "";
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.panel1.Controls.Add(this.rtbChat);
+            this.panel1.Location = new System.Drawing.Point(16, 16);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(447, 620);
+            this.panel1.TabIndex = 3;
             // 
             // Form1
             // 
@@ -74,12 +87,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.ClientSize = new System.Drawing.Size(479, 771);
-            this.Controls.Add(this.rtbChat);
             this.Controls.Add(this.btnSend);
             this.Controls.Add(this.tbMsg);
+            this.Controls.Add(this.panel1);
             this.Name = "Form1";
             this.Text = "Bobick";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -90,6 +104,7 @@
         private System.Windows.Forms.TextBox tbMsg;
         private System.Windows.Forms.Button btnSend;
         private System.Windows.Forms.RichTextBox rtbChat;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 

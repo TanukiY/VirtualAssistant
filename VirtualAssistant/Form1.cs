@@ -19,17 +19,20 @@ namespace VirtualAssistant
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            if (tbMsg.Text != "Введите сообщение...")
+            var command = tbMsg.Text.Trim().Split()[0].ToLower();
+            var text = tbMsg.Text.Substring(command.Length);
+
+            if (command == "echo" || command == "скажи")
             {
                 rtbChat.SelectionAlignment = HorizontalAlignment.Right;
-                rtbChat.AppendText(tbMsg.Text + "\n");
+                rtbChat.AppendText(text + "\n");
                 rtbChat.SelectionAlignment = HorizontalAlignment.Left;
-                rtbChat.AppendText(tbMsg.Text + "\n");
+                rtbChat.AppendText(text + "\n");
             }              
         }
 
