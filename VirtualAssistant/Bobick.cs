@@ -37,6 +37,8 @@ namespace VirtualAssistant
                 echoCommand(text);
             else if (command == "open" || command == "открой")
                 openCommand(text);
+            else if(command == "добавь" || command=="add")
+                addPathCommand(text);
         }
 
         public void echoCommand(string text)
@@ -45,7 +47,6 @@ namespace VirtualAssistant
         }
         public void openCommand(string text)
         {
-
             try
             {
                 Process.Start(text);
@@ -54,11 +55,36 @@ namespace VirtualAssistant
             {
                 string res;
                 dict.TryGetValue(text, out res);
-                if (res != null)
+                if (res != null)                    
                     Process.Start(res);
                 else
+                {
                     chatAdd("Простите, не удалось открыть программу");
-            }            
+                    return;
+                }                    
+            }
+            chatAdd("Программа открыта");
+        }
+
+        public void addPathCommand(string text)
+        {
+            var key = text.Split()[0];
+            var path = text.Substring(key.Length + 1);
+            if(text.Substring(text.Length-4)!= ".exe")
+            {
+                chatAdd("Расширение файла должно быть .exe");
+                return;
+            }
+
+            if (!File.Exists(path))
+            {
+                chatAdd("Такого файла нет, проаерьте путь");
+                return;
+            }
+            dict.Add(key, path);
+            string reading = JsonConvert.SerializeObject(dict);            
+            File.WriteAllText("path.json", reading);
+            chatAdd("Путь добавлен");
         }
 
         public void chatAdd(string text)
