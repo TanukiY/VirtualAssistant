@@ -7,11 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace VirtualAssistant
 {
     public partial class Form1 : Form
     {
+        Bobick bobick;
+
         public Form1()
         {
             InitializeComponent();
@@ -19,21 +22,12 @@ namespace VirtualAssistant
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            bobick = new Bobick(tbMsg, rtbChat);
         }
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            var command = tbMsg.Text.Trim().Split()[0].ToLower();
-            var text = tbMsg.Text.Substring(command.Length);
-
-            if (command == "echo" || command == "скажи")
-            {
-                rtbChat.SelectionAlignment = HorizontalAlignment.Right;
-                rtbChat.AppendText(text + "\n");
-                rtbChat.SelectionAlignment = HorizontalAlignment.Left;
-                rtbChat.AppendText(text + "\n");
-            }              
+            bobick.command();
         }
 
         private void tbMsg_MouseClick(object sender, MouseEventArgs e)
