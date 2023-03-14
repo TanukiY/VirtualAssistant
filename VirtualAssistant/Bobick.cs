@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,10 +15,14 @@ namespace VirtualAssistant
     {
         TextBox tbMsg;
         RichTextBox rtbChat;
+        Dictionary<string, string> dict;
+
         public Bobick(TextBox tbMsg, RichTextBox rtbChat)
         {
             this.rtbChat = rtbChat;
             this.tbMsg = tbMsg;
+            var text = File.ReadAllText("path.json");
+            dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(text);
         }
 
         public void command()
@@ -39,14 +45,19 @@ namespace VirtualAssistant
         }
         public void openCommand(string text)
         {
+
             try
             {
                 Process.Start(text);
             }
             catch (Exception)
             {
-
-                chatAdd("Простите, не удалось открыть программу");
+                string res;
+                dict.TryGetValue(text, out res);
+                if (res != null)
+                    Process.Start(res);
+                else
+                    chatAdd("Простите, не удалось открыть программу");
             }            
         }
 
