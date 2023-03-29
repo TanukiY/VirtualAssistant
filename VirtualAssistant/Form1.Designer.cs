@@ -46,9 +46,7 @@
             this.tbMsg.Size = new System.Drawing.Size(341, 79);
             this.tbMsg.TabIndex = 0;
             this.tbMsg.TabStop = false;
-            this.tbMsg.Text = "Введите сообщение...";
-            this.tbMsg.Enter += new System.EventHandler(this.tbMsg_Enter);
-            this.tbMsg.Leave += new System.EventHandler(this.tbMsg_Leave);
+            this.tbMsg.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbMsg_KeyPress);
             // 
             // btnSend
             // 

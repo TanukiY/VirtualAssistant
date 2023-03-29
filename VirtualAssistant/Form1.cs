@@ -24,26 +24,23 @@ namespace VirtualAssistant
         private void Form1_Load(object sender, EventArgs e)
         {
             bobick = new Bobick(tbMsg, rtbChat);
-        }
+            tbMsg.Select();
+            tbMsg.ForeColor = Color.Gray;
+            tbMsg.Text = "Введите сообщение...";
+            tbMsg.Select(0,0);
+        }        
 
         private void btnSend_Click(object sender, EventArgs e)
         {
             bobick.command();
         }
 
-        private void tbMsg_Enter(object sender, EventArgs e)
+        private void tbMsg_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (tbMsg.Text == "Введите сообщение...")
             {
                 tbMsg.Text = "";
-            }
-        }
-
-        private void tbMsg_Leave(object sender, EventArgs e)
-        {
-            if (tbMsg.Text == "")
-            {
-                tbMsg.Text = "Введите сообщение...";
+                tbMsg.ForeColor = Color.Black;
             }
         }
     }
