@@ -47,7 +47,8 @@
             this.tbMsg.TabIndex = 0;
             this.tbMsg.TabStop = false;
             this.tbMsg.Text = "Введите сообщение...";
-            this.tbMsg.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tbMsg_MouseClick);
+            this.tbMsg.Enter += new System.EventHandler(this.tbMsg_Enter);
+            this.tbMsg.Leave += new System.EventHandler(this.tbMsg_Leave);
             // 
             // btnSend
             // 
@@ -64,10 +65,12 @@
             // rtbChat
             // 
             this.rtbChat.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbChat.Enabled = false;
             this.rtbChat.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.rtbChat.Location = new System.Drawing.Point(19, 17);
             this.rtbChat.Margin = new System.Windows.Forms.Padding(7);
             this.rtbChat.Name = "rtbChat";
+            this.rtbChat.ReadOnly = true;
             this.rtbChat.Size = new System.Drawing.Size(406, 583);
             this.rtbChat.TabIndex = 2;
             this.rtbChat.Text = "";

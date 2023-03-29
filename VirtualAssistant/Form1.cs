@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace VirtualAssistant
 {
@@ -30,10 +31,20 @@ namespace VirtualAssistant
             bobick.command();
         }
 
-        private void tbMsg_MouseClick(object sender, MouseEventArgs e)
+        private void tbMsg_Enter(object sender, EventArgs e)
         {
-            tbMsg.Text = "";
+            if (tbMsg.Text == "Введите сообщение...")
+            {
+                tbMsg.Text = "";
+            }
         }
 
+        private void tbMsg_Leave(object sender, EventArgs e)
+        {
+            if (tbMsg.Text == "")
+            {
+                tbMsg.Text = "Введите сообщение...";
+            }
+        }
     }
 }
