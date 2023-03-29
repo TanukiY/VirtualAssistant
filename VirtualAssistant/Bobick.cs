@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -28,11 +29,16 @@ namespace VirtualAssistant
         public void command()
         {
             var message = tbMsg.Text;
-            var command = message.Trim().Split()[0].ToLower();
-            var text = message.Substring(command.Length+1);
             rtbChat.SelectionAlignment = HorizontalAlignment.Right;
             rtbChat.AppendText(message + "\n");
-
+            var command = message.Trim().Split()[0].ToLower();
+            if(message.Length== command.Length)
+            {
+                chatAdd("Такой команды нет");
+                return;
+            }
+            var text = message.Substring(command.Length+1);
+            
             if (command == "echo" || command == "скажи")
                 echoCommand(text);
             else if (command == "open" || command == "открой")
