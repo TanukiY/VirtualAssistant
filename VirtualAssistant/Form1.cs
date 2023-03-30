@@ -29,16 +29,7 @@ namespace VirtualAssistant
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            bobick.command();
-            tbMsgActive();
-        }
-
-        public void tbMsgActive()
-        {
-            tbMsg.Select();
-            tbMsg.ForeColor = Color.Gray;
-            tbMsg.Text = "Введите сообщение...";
-            tbMsg.Select(0, 0);
+            bobickStart();
         }
 
         private void tbMsg_KeyPress(object sender, KeyPressEventArgs e)
@@ -49,5 +40,25 @@ namespace VirtualAssistant
                 tbMsg.ForeColor = Color.Black;
             }
         }
+
+        private void tbMsg_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                bobickStart();
+        }
+
+        public void bobickStart()
+        {
+            bobick.command();
+            tbMsgActive();
+        }
+
+        public void tbMsgActive()
+        {
+            tbMsg.Select();
+            tbMsg.ForeColor = Color.Gray;
+            tbMsg.Text = "Введите сообщение...";
+            tbMsg.Select(0, 0);
+        }       
     }
 }

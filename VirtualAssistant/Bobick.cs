@@ -45,6 +45,8 @@ namespace VirtualAssistant
                 openCommand(text);
             else if(command == "добавь" || command=="add")
                 addPathCommand(text);
+            else if (message == "выведи пути" || message == "output path")
+                outputPathCommand(text);
         }
 
         public void echoCommand(string text)
@@ -91,6 +93,14 @@ namespace VirtualAssistant
             string reading = JsonConvert.SerializeObject(dict);            
             File.WriteAllText("path.json", reading);
             chatAdd("Путь добавлен");
+        }
+
+        public void outputPathCommand(string text)
+        {
+            foreach (var item in dict)
+            {
+                chatAdd(item.Key + ": " + item.Value);
+            }
         }
 
         public void chatAdd(string text)
