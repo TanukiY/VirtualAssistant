@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -17,6 +18,7 @@ namespace VirtualAssistant
         TextBox tbMsg;
         RichTextBox rtbChat;
         Dictionary<string, string> dict;
+        DictionaryCmd[] dictionaryCmds;
 
         public Bobick(TextBox tbMsg, RichTextBox rtbChat)
         {
@@ -24,6 +26,9 @@ namespace VirtualAssistant
             this.tbMsg = tbMsg;
             var text = File.ReadAllText("path.json");
             dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(text);
+
+            var dictionaryCmdsPath = "trainingsample.csv";
+            this.dictionaryCmds = ReaderDictionaryCmd.ReadCommands(dictionaryCmdsPath);
         }
 
         public void command()
@@ -31,29 +36,15 @@ namespace VirtualAssistant
             var message = tbMsg.Text;
             rtbChat.SelectionAlignment = HorizontalAlignment.Right;
             rtbChat.AppendText(message + "\n");
-            var command = message.Trim().Split()[0].ToLower();
-            if(message.Length== command.Length)
-            {
-                chatAdd("Такой команды нет");
-                return;
-            }
-            var text = message.Substring(command.Length+1);
             
-            if (command == "echo" || command == "скажи")
-                echoCommand(text);
-            else if (command == "open" || command == "открой")
-                openCommand(text);
-            else if(command == "добавь" || command=="add")
-                addPathCommand(text);
-            else if (message == "выведи пути" || message == "output path")
-                outputPathCommand(text);
+            
         }
 
-        public void echoCommand(string text)
+        private void echoCommand(string text)
         {
             chatAdd(text);
         }
-        public void openCommand(string text)
+        private void openCommand(string text)
         {
             try
             {
@@ -74,7 +65,7 @@ namespace VirtualAssistant
             chatAdd("Программа открыта");
         }
 
-        public void addPathCommand(string text)
+        private void addPathCommand(string text)
         {
             var key = text.Split()[0];
             var path = text.Substring(key.Length + 1);
@@ -95,7 +86,7 @@ namespace VirtualAssistant
             chatAdd("Путь добавлен");
         }
 
-        public void outputPathCommand(string text)
+        private void outputPathCommand(string text)
         {
             foreach (var item in dict)
             {
@@ -103,7 +94,12 @@ namespace VirtualAssistant
             }
         }
 
-        public void chatAdd(string text)
+        private void findCommand(string text)
+        {
+            Process.Start($"https://www.google.com/search?q={text}");
+            chatAdd("Перевожу на браузер");
+        }
+        private void chatAdd(string text)
         {
             rtbChat.SelectionAlignment = HorizontalAlignment.Left;
             rtbChat.AppendText(text + "\n");
