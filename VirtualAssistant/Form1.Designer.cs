@@ -74,6 +74,7 @@
             // 
             this.rtbChat.BackColor = System.Drawing.Color.White;
             this.rtbChat.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbChat.Cursor = System.Windows.Forms.Cursors.Default;
             this.rtbChat.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.rtbChat.ForeColor = System.Drawing.Color.Black;
             this.rtbChat.Location = new System.Drawing.Point(19, 17);
