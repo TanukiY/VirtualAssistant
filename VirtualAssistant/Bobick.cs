@@ -19,6 +19,7 @@ namespace VirtualAssistant
         RichTextBox rtbChat;
         Dictionary<string, string> dict;
         DictionaryCmd[] dictionaryCmds;
+        Classifier classifier = new Classifier();
 
         public Bobick(TextBox tbMsg, RichTextBox rtbChat)
         {
@@ -29,6 +30,7 @@ namespace VirtualAssistant
 
             var dictionaryCmdsPath = "trainingsample.csv";
             this.dictionaryCmds = ReaderDictionaryCmd.ReadCommands(dictionaryCmdsPath);
+            classifier.addDictionaryCmd(dictionaryCmds);
         }
 
         public void command()
@@ -36,8 +38,8 @@ namespace VirtualAssistant
             var message = tbMsg.Text;
             rtbChat.SelectionAlignment = HorizontalAlignment.Right;
             rtbChat.AppendText(message + "\n");
-            
-            
+            var ot = classifier.Predict(message);
+
         }
 
         private void echoCommand(string text)

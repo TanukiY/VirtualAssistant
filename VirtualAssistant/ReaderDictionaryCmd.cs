@@ -24,7 +24,6 @@ namespace VirtualAssistant
                 .Skip(1)
                 .Select(CommandsFactory)
                 .ToArray();
-
             return data;
         }
     }
