@@ -49,7 +49,7 @@ namespace VirtualAssistant
 
         public void bobickStart()
         {
-            bobick.command();
+            bobick.commandProcess();
             tbMsgActive();
         }
 

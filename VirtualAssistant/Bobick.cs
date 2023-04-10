@@ -33,19 +33,40 @@ namespace VirtualAssistant
             classifier.addDictionaryCmd(dictionaryCmds);
         }
 
-        public void command()
+        public void commandProcess()
         {
             var message = tbMsg.Text;
             rtbChat.SelectionAlignment = HorizontalAlignment.Right;
             rtbChat.AppendText(message + "\n");
-            var ot = classifier.Predict(message);
-
+            string[] commands = classifier.Predict(message);
+            var text = message.Replace(commands[1], "").Trim();
+            switch (commands[0])
+            {
+                case "открой":
+                    openCommand(text);
+                    break;
+                case "скажи":
+                    echoCommand(text);
+                    break;
+                case "добавь путь":
+                    addPathCommand(text);
+                    break;
+                case "список путей":
+                    outputPathCommand();
+                    break;
+                case "выполни поиск":
+                    findCommand(text);
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void echoCommand(string text)
         {
             chatAdd(text);
         }
+        
         private void openCommand(string text)
         {
             try
@@ -88,7 +109,7 @@ namespace VirtualAssistant
             chatAdd("Путь добавлен");
         }
 
-        private void outputPathCommand(string text)
+        private void outputPathCommand()
         {
             foreach (var item in dict)
             {
