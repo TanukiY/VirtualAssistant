@@ -8,7 +8,7 @@ namespace VirtualAssistant
 {
     internal static class LevenshteinDistance
     {
-        public static double Between(string synonym1, string synonym2)
+        public static int Between(string synonym1, string synonym2)
         {
             int[,] distance = new int[synonym1.Length + 1, synonym2.Length + 1];
 

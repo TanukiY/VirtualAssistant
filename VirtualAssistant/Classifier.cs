@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,13 +20,13 @@ namespace VirtualAssistant
             var synonym = "";
             var writeCmd = "";
             DictionaryCmd currentBest = null;
-            var shortest = Double.MaxValue;
+            var shortest = int.MaxValue;
             foreach (var item in message.Split(' '))
             {
                 synonym += item;   
                 foreach (DictionaryCmd obs in this.data)
                 {
-                    double dist = LevenshteinDistance.Between(obs.Synonym, synonym);
+                    int dist = LevenshteinDistance.Between(obs.Synonym, synonym);
                     if (dist <= shortest || (dist * 100) / synonym.Length< Possible_Typo)
                     {
                         shortest = dist;
