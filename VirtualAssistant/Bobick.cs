@@ -57,7 +57,7 @@ namespace VirtualAssistant
                 case "выполни поиск":
                     findCommand(text);
                     break;
-                default:
+                default:                    
                     break;
             }
         }
@@ -81,7 +81,7 @@ namespace VirtualAssistant
                     Process.Start(res);
                 else
                 {
-                    chatAdd("Простите, не удалось открыть программу");
+                    chatAdd("Простите, не удалось открыть программу " + text);
                     return;
                 }                    
             }
