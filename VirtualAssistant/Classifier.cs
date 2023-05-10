@@ -1,33 +1,31 @@
-﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Security.Policy;
 
 namespace VirtualAssistant
 {
     internal class Classifier
     {
-        private IEnumerable<DictionaryCmd> data;
+        private IEnumerable<TrainingCommand> data;
         const byte Possible_Typo = 20;
-        public void addDictionaryCmd(IEnumerable<DictionaryCmd> dictionaryCmd)
+        public void addDictionaryCmd(IEnumerable<TrainingCommand> trainingCommand)
         {
-            this.data = dictionaryCmd;
+            this.data = trainingCommand;
         }
         public string[] Predict(string message)
         {
             var synonym = "";
             var writeCmd = "";
-            DictionaryCmd currentBest = null;
+            TrainingCommand currentBest = null;
             var shortest = int.MaxValue;
             foreach (var item in message.Split(' '))
             {
+                if (item == "")
+                    continue;
                 synonym += item;   
-                foreach (DictionaryCmd obs in this.data)
+                foreach (TrainingCommand obs in this.data)
                 {
                     int dist = LevenshteinDistance.Between(obs.Synonym, synonym);
-                    if (dist <= shortest || (dist * 100) / synonym.Length< Possible_Typo)
+                    if (dist <= shortest && (dist * 100) / synonym.Length <= Possible_Typo)
                     {
                         shortest = dist;
                         currentBest = obs;
@@ -36,7 +34,11 @@ namespace VirtualAssistant
                 }
                 synonym += " ";
             }
-            return new string[] { currentBest.Reference, writeCmd };
+
+            if (currentBest == null)
+                return null;
+            else
+                return new string[] { currentBest.Reference, writeCmd };
         }
     }
 }
