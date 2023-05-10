@@ -1,131 +1,116 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace VirtualAssistant
 {
     internal class Bobick
     {
-        TextBox tbMsg;
-        RichTextBox rtbChat;
-        Dictionary<string, string> dict;
-        DictionaryCmd[] dictionaryCmds;
-        Classifier classifier = new Classifier();
+        private Handler handler;
+        private string UserMessage { get; set; }
+        private string BobickMessage { get; set; }
 
-        public Bobick(TextBox tbMsg, RichTextBox rtbChat)
+        readonly Dictionary<string, Action> commandsDictionary;
+
+        public Bobick()
         {
-            this.rtbChat = rtbChat;
-            this.tbMsg = tbMsg;
-            var text = File.ReadAllText("path.json");
-            dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(text);
-
-            var dictionaryCmdsPath = "trainingsample.csv";
-            this.dictionaryCmds = ReaderDictionaryCmd.ReadCommands(dictionaryCmdsPath);
-            classifier.addDictionaryCmd(dictionaryCmds);
-        }
-
-        public void commandProcess()
-        {
-            var message = tbMsg.Text;
-            rtbChat.SelectionAlignment = HorizontalAlignment.Right;
-            rtbChat.AppendText(message + "\n");
-            string[] commands = classifier.Predict(message);
-            var text = message.Replace(commands[1], "").Trim();
-            switch (commands[0])
+            commandsDictionary = new Dictionary<string, Action>()
             {
-                case "открой":
-                    openCommand(text);
-                    break;
-                case "скажи":
-                    echoCommand(text);
-                    break;
-                case "добавь путь":
-                    addPathCommand(text);
-                    break;
-                case "список путей":
-                    outputPathCommand();
-                    break;
-                case "выполни поиск":
-                    findCommand(text);
-                    break;
-                default:                    
-                    break;
+                { "открой", OpenCommand },
+                { "скажи", SayCommand },
+                { "добавь путь", AddPathCommand },
+                { "список путей", OutputPathCommand },
+                { "выполни поиск", FindCommand }
+            };
+        }
+        public string DistributionUserMessage(string userMessage)
+        {
+            UserMessage = userMessage;         
+            BugCatcher bugCatcher= new BugCatcher();
+            string bug = bugCatcher.TreatmentBug(UserMessage);
+            if(bug!=null)
+                return bug;
+            handler = new Handler(UserMessage);
+
+            string command = handler.SearchCommandName();
+            if (command == null)
+            {
+                AnswerFromBobick("Извините, я Вас не понял, повтроите попытку");
             }
+            else if (commandsDictionary.ContainsKey(command))
+            {
+                commandsDictionary[command].Invoke();
+            }
+            return BobickMessage;
         }
 
-        private void echoCommand(string text)
+        private void SayCommand()
         {
-            chatAdd(text);
+            var sayMessage = handler.DeleteUserCommand(UserMessage);
+            AnswerFromBobick(sayMessage);
         }
-        
-        private void openCommand(string text)
+
+        private void OpenCommand()
         {
+            var pathAndName = handler.SearchingForPathFile();
+            var name = pathAndName[0];
+            var path = pathAndName[1];
             try
             {
-                Process.Start(text);
+                Process.Start(name);
             }
             catch (Exception)
             {
-                string res;
-                dict.TryGetValue(text, out res);
-                if (res != null)                    
-                    Process.Start(res);
+                if (path != null)
+                    Process.Start(path);
                 else
                 {
-                    chatAdd("Простите, не удалось открыть программу " + text);
+                    AnswerFromBobick($"Простите, не удалось открыть программу {name}");
                     return;
-                }                    
+                }
             }
-            chatAdd("Программа открыта");
+            AnswerFromBobick($"Программа {name} открыта");
         }
 
-        private void addPathCommand(string text)
+        //ToDo: сделать свой input, а то этот убогий
+        //ToDo: проверка на уникальный ключ и null
+        private void AddPathCommand()
         {
-            var key = text.Split()[0];
-            var path = text.Substring(key.Length + 1);
-            if(text.Substring(text.Length-4)!= ".exe")
+            string selectedFile = "";
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                chatAdd("Расширение файла должно быть .exe");
-                return;
-            }
+                openFileDialog.Title = "Выберите файл";
+                openFileDialog.Filter = "Все файлы (*.*)|*.*";
 
-            if (!File.Exists(path))
-            {
-                chatAdd("Такого файла нет, проаерьте путь");
-                return;
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    selectedFile = openFileDialog.FileName;
+                }
             }
-            dict.Add(key, path);
-            string reading = JsonConvert.SerializeObject(dict);            
-            File.WriteAllText("path.json", reading);
-            chatAdd("Путь добавлен");
+                
+            string input = Microsoft.VisualBasic.Interaction.InputBox("Введите ключ-название для указанного пути:", "Ключ пути", "tg");
+
+            handler.AddPathInFile(input, selectedFile);
         }
 
-        private void outputPathCommand()
+        private void OutputPathCommand()
         {
-            foreach (var item in dict)
-            {
-                chatAdd(item.Key + ": " + item.Value);
-            }
+            var showPath = handler.ShowPath();
+            AnswerFromBobick(showPath);
         }
 
-        private void findCommand(string text)
+        private void FindCommand()
         {
-            Process.Start($"https://www.google.com/search?q={text}");
-            chatAdd("Перевожу на браузер");
+            var searchCmd = handler.DeleteUserCommand(UserMessage);
+            Process.Start($"https://www.google.com/search?q={searchCmd}");
+            AnswerFromBobick("Перевожу на браузер");
         }
-        private void chatAdd(string text)
+
+        private void AnswerFromBobick(string text)
         {
-            rtbChat.SelectionAlignment = HorizontalAlignment.Left;
-            rtbChat.AppendText(text + "\n");
+            BobickMessage = text;
         }
     }
 }

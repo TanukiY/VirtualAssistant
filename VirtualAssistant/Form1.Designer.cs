@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tbMsg = new System.Windows.Forms.TextBox();
             this.btnSend = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -47,7 +48,7 @@
             this.tbMsg.TabIndex = 0;
             this.tbMsg.TabStop = false;
             this.tbMsg.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbMsg_KeyDown);
-            this.tbMsg.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbMsg_KeyPress);
+            this.tbMsg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tbMsg_MouseDown);
             // 
             // btnSend
             // 
@@ -76,7 +77,7 @@
             this.rtbChat.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.rtbChat.Cursor = System.Windows.Forms.Cursors.Default;
             this.rtbChat.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rtbChat.ForeColor = System.Drawing.Color.Black;
+            this.rtbChat.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(87)))), ((int)(((byte)(235)))));
             this.rtbChat.Location = new System.Drawing.Point(19, 17);
             this.rtbChat.Margin = new System.Windows.Forms.Padding(7);
             this.rtbChat.Name = "rtbChat";
@@ -95,6 +96,7 @@
             this.Controls.Add(this.btnSend);
             this.Controls.Add(this.tbMsg);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Bobick";
             this.Load += new System.EventHandler(this.Form1_Load);
