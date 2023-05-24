@@ -132,5 +132,15 @@ namespace VirtualAssistant
             tbMsg.Text = "Введите сообщение...";
             tbMsg.Select(0, 0);
         }
+
+        private void btn_voice_MouseDown(object sender, MouseEventArgs e)
+        {
+            btn_voice.BackColor= Color.Red;
+        }
+
+        private void btn_voice_MouseUp(object sender, MouseEventArgs e)
+        {
+            btn_voice.BackColor = Color.White;
+        }
     }
 }
