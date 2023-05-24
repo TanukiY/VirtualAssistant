@@ -92,6 +92,7 @@
     <Compile Include="Bobick.cs" />
     <Compile Include="BugCatcher.cs" />
     <Compile Include="Classifier.cs" />
+    <Compile Include="SpeechKit.cs" />
     <Compile Include="TrainingCommand.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
