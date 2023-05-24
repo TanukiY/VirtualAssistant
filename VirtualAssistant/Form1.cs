@@ -11,14 +11,20 @@ using System.Diagnostics;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
-
-
+using VisioForge.Libs.NAudio.Wave;
+using System.IO;
+using VisioForge.Libs.WindowsMediaLib;
+using System.Threading;
 
 namespace VirtualAssistant
 {   
     public partial class Form1 : Form
     {
         Bobick bobick;
+        WaveFormat waveFormat = new WaveFormat(48000, 16, 1);
+        MemoryStream stream = new MemoryStream();
+        WaveInEvent waveInEvent = new WaveInEvent();
+        SpeechKit speechKit = new SpeechKit();
 
         //ToDo: Своя форма, и так сойдет
         public Form1()
@@ -51,7 +57,8 @@ namespace VirtualAssistant
             tbMsg.ForeColor = Color.Black;
             btnSend.ForeColor = Color.Black;
 
-            this.MaximizeBox = false;            
+            this.MaximizeBox = false;    
+            
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -136,11 +143,27 @@ namespace VirtualAssistant
         private void btn_voice_MouseDown(object sender, MouseEventArgs e)
         {
             btn_voice.BackColor= Color.Red;
+            
+            waveInEvent.WaveFormat = waveFormat;
+            waveInEvent.DataAvailable += (senderWave, eWave) =>
+            {
+                stream.Write(eWave.Buffer, 0, eWave.BytesRecorded);
+            };
+            waveInEvent.StartRecording();
         }
 
-        private void btn_voice_MouseUp(object sender, MouseEventArgs e)
+        private async void btn_voice_MouseUp(object sender, MouseEventArgs e)
         {
             btn_voice.BackColor = Color.White;
+            waveInEvent.StopRecording();
+            var data = stream.ToArray();
+            var textFromVoice = await SpeechKit.ConvertSpeechToText(data);
+            Thread.Sleep(1000);
+            rtbChat.SelectionAlignment = HorizontalAlignment.Right;
+            rtbChat.AppendText(textFromVoice + "\n");
+            var resultToAnswer = bobick.DistributionUserMessage(textFromVoice.ToString());
+            rtbChat.SelectionAlignment = HorizontalAlignment.Left;
+            rtbChat.AppendText(resultToAnswer + "\n");
         }
     }
 }

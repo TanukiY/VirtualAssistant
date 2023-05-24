@@ -13,11 +13,12 @@ namespace VirtualAssistant
     internal class SpeechKit
     {
         private static string ApiURL { get; set; }
-        private SpeechKit()
+        public SpeechKit()
         {
             ApiURL = "https://stt.api.cloud.yandex.net/speech/v1/stt:recognize";
         }
-        async static private Task<string> ConvertSpeechToText(byte[] data)
+        //Добавить async
+        async static public Task<string> ConvertSpeechToText(byte[] data)
         {
             var client = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Post, ApiURL);
