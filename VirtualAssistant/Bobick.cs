@@ -54,6 +54,11 @@ namespace VirtualAssistant
         private void OpenCommand()
         {
             var pathAndName = handler.SearchingForPathFile();
+            if (pathAndName == null){
+                AnswerFromBobick($"Простите, такой программы нет ");
+                return;
+            }
+
             var name = pathAndName[0];
             var path = pathAndName[1];
             try

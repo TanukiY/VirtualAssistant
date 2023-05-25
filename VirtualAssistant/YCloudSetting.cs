@@ -8,7 +8,7 @@
         public string YandexCloudFolderId { get; private set; }
         private YCloudSetting()
         {
-            YandexCloudToken = "t1.9euelZqXxs2Jj8iUk5iVzc2Xz8zLjO3rnpWajcaJzIqNmJ3NmZ6Rm8icjYrl8_coREZc-e9IYTFc_t3z92hyQ1z570hhMVz-.dIpzVSLcT7LyzcO1ezpRn1ohDPRwMxJiQ_lHX7k7QcpsfMvouAIBcJR8gGpwjkmU5FG0y-z6tZjAwzFdOq-0BA";
+            YandexCloudToken = "t1.9euelZrNyJWXj42Lmc3PnY2dlZaZye3rnpWajcaJzIqNmJ3NmZ6Rm8icjYrl8_ceRUFc-e82LxsR_d3z915zPlz57zYvGxH9.SU7c-l9ltstjarrGaJ8Ys4Vd5tWsj6VgdqGCGleZwBOsgsroIdH_ysezx6xok2FHcdv03YhoKkpRY9qGwSCWCg";
             YandexCloudFolderId = "b1gm46lqlkfoushj04at";
         }
 
