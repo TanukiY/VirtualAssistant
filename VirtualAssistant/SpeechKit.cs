@@ -7,27 +7,25 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using VirtualAssistant.Properties;
+using System.Windows.Forms;
+using VisioForge.Libs.MediaFoundation.OPM;
 
 namespace VirtualAssistant
-{    
-    internal class SpeechKit
+{
+    internal static class SpeechKit
     {
-        private static string ApiURL { get; set; }
-        public SpeechKit()
-        {
-            ApiURL = "https://stt.api.cloud.yandex.net/speech/v1/stt:recognize";
-        }
-        //Добавить async
+        public const string ApiURL = "https://stt.api.cloud.yandex.net/speech/v1/stt:recognize";
+        
         async static public Task<string> ConvertSpeechToText(byte[] data)
         {
             var client = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Post, ApiURL);
-            client.DefaultRequestHeaders.Authorization 
+            client.DefaultRequestHeaders.Authorization
                 = new AuthenticationHeaderValue(
-                    "Bearer", YCloudSetting.GetInstance().YandexCloudToken);
+                    "Bearer", Setting.GetInstance().YandexCloudToken);
 
             string url = $"{ApiURL}" +
-                         $"?folderId={YCloudSetting.GetInstance().YandexCloudFolderId}" +
+                         $"?folderId={Setting.GetInstance().YandexCloudFolderId}" +
                          $"&topic=general" +
                          $"&lang=ru-RU" +
                          $"&profanityFilter=false" +
@@ -37,21 +35,25 @@ namespace VirtualAssistant
 
             var response = await client.PostAsync(url, new ByteArrayContent(data));
 
-            string responseStream = "";
+            string responseContent = "";
             if (response.IsSuccessStatusCode)
             {
-                responseStream = await response.Content.ReadAsStringAsync();
+                responseContent = await response.Content.ReadAsStringAsync();
+            }
+            else
+            {
+                MessageBox.Show("Ошибка при обращении к Yandex SpeechKit API", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             string result = "";
             try
             {
-                var jobj = JObject.Parse(responseStream);
+                var jobj = JObject.Parse(responseContent);
                 result = jobj["result"].ToString();
             }
             catch (Exception e)
             {
-                throw new Exception("Не удалось сформировать JSON файл");
+                MessageBox.Show("Не удалось сформировать JSON файл: " + e.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return result;

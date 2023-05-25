@@ -24,7 +24,6 @@ namespace VirtualAssistant
         WaveFormat waveFormat = new WaveFormat(48000, 16, 1);
         MemoryStream stream = new MemoryStream();
         WaveInEvent waveInEvent = new WaveInEvent();
-        SpeechKit speechKit = new SpeechKit();
 
         //ToDo: Своя форма, и так сойдет
         public Form1()
@@ -119,13 +118,24 @@ namespace VirtualAssistant
             }
         }
 
-        private void StartBobick()
+        private async void StartBobick()
         {
+
+            //rtbChat.SelectionAlignment = HorizontalAlignment.Right;
+            //rtbChat.AppendText(tbMsg.Text + "\n");
+
+            //var resultToAnswer = bobick.DistributionUserMessage(tbMsg.Text);
+
+            //rtbChat.SelectionAlignment = HorizontalAlignment.Left;
+            //rtbChat.AppendText(resultToAnswer + "\n");
+
+            //ExpectationFromTbMsg();
+
             rtbChat.SelectionAlignment = HorizontalAlignment.Right;
             rtbChat.AppendText(tbMsg.Text + "\n");
 
-            var resultToAnswer = bobick.DistributionUserMessage(tbMsg.Text);
-            
+            var resultToAnswer = await GptAssistent.StartGPTAsync(tbMsg.Text);
+
             rtbChat.SelectionAlignment = HorizontalAlignment.Left;
             rtbChat.AppendText(resultToAnswer + "\n");
 
