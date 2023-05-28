@@ -5,35 +5,30 @@ using System.Windows.Forms;
 
 namespace VirtualAssistant
 {
-    internal class Bobick
+    internal static class Bobick
     {
-        private Handler handler;
-        private string UserMessage { get; set; }
-        private string BobickMessage { get; set; }
+        private static string UserMessage { get; set; }
+        private static string BobickMessage { get; set; }
 
-        readonly Dictionary<string, Action> commandsDictionary;
-
-        public Bobick()
+        readonly static Dictionary<string, Action> commandsDictionary = new Dictionary<string, Action>()
         {
-            commandsDictionary = new Dictionary<string, Action>()
-            {
-                { "открой", OpenCommand },
-                { "скажи", SayCommand },
-                { "добавь путь", AddPathCommand },
-                { "список путей", OutputPathCommand },
-                { "выполни поиск", FindCommand }
-            };
-        }
-        public string DistributionUserMessage(string userMessage)
+            { "открой", OpenCommand },
+            { "скажи", SayCommand },
+            { "добавь путь", AddPathCommand },
+            { "список путей", OutputPathCommand },
+            { "выполни поиск", FindCommand }
+        };
+
+        public static string DistributionUserMessage(string userMessage)
         {
             UserMessage = userMessage;         
             BugCatcher bugCatcher= new BugCatcher();
             string bug = bugCatcher.TreatmentBug(UserMessage);
             if(bug!=null)
                 return bug;
-            handler = new Handler(UserMessage);
+            Handler.AddUserMessage(UserMessage);
 
-            string command = handler.SearchCommandName();
+            string command = Handler.SearchCommandName();
             if (command == null)
             {
                 AnswerFromBobick("Извините, я Вас не понял, повтроите попытку");
@@ -45,15 +40,15 @@ namespace VirtualAssistant
             return BobickMessage;
         }
 
-        private void SayCommand()
+        private static void SayCommand()
         {
-            var sayMessage = handler.DeleteUserCommand(UserMessage);
+            var sayMessage = Handler.DeleteUserCommand(UserMessage);
             AnswerFromBobick(sayMessage);
         }
 
-        private void OpenCommand()
+        private static void OpenCommand()
         {
-            var pathAndName = handler.SearchingForPathFile();
+            var pathAndName = Handler.SearchingForPathFile();
             if (pathAndName == null){
                 AnswerFromBobick($"Простите, такой программы нет ");
                 return;
@@ -80,7 +75,7 @@ namespace VirtualAssistant
 
         //ToDo: сделать свой input, а то этот убогий
         //ToDo: проверка на уникальный ключ и null
-        private void AddPathCommand()
+        private static void AddPathCommand()
         {
             string selectedFile = "";
 
@@ -94,28 +89,34 @@ namespace VirtualAssistant
                     selectedFile = openFileDialog.FileName;
                 }
             }
-                
-            string input = Microsoft.VisualBasic.Interaction.InputBox("Введите ключ-название для указанного пути:", "Ключ пути", "tg");
 
-            handler.AddPathInFile(input, selectedFile);
+            string userInput = InputBoxForm.Show("Введите значение:");
+            if (userInput == null || userInput == "")
+            {
+                AnswerFromBobick("Операция отменена");
+                return;
+            }
+            Handler.AddPathInFile(userInput, selectedFile);
+            AnswerFromBobick("Файл и ключ установлен");
+
         }
 
-        private void OutputPathCommand()
+        private static void OutputPathCommand()
         {
-            var showPath = handler.ShowPath();
+            var showPath = Handler.ShowPath();
             AnswerFromBobick(showPath);
         }
 
-        private void FindCommand()
+        private static void FindCommand()
         {
-            var searchCmd = handler.DeleteUserCommand(UserMessage);
+            var searchCmd = Handler.DeleteUserCommand(UserMessage);
             Process.Start($"https://www.google.com/search?q={searchCmd}");
             AnswerFromBobick("Перевожу на браузер");
         }
 
-        private void AnswerFromBobick(string text)
+        private static void AnswerFromBobick(string text)
         {
             BobickMessage = text;
         }
-    }
+    }    
 }

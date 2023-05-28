@@ -4,17 +4,17 @@ using System.IO;
 
 namespace VirtualAssistant
 {
-    internal class Handler
+    internal static class Handler
     {        
-        private TrainingCommand[] trainingCommands;
-        private Classifier classifier = new Classifier();
+        private static TrainingCommand[] trainingCommands;
+        private static Classifier classifier = new Classifier();
 
-        private Dictionary<string, int> dictCmdMatches;
-        private Dictionary<string, string> dictForSaveUserCmd;
-        private Dictionary<string, string> dictPath;
-        private string UserCommand { get; set; }
-        private string[] MassUserMsg { get; set; }
-        public Handler(string userMessage)
+        private static Dictionary<string, int> dictCmdMatches;
+        private static Dictionary<string, string> dictForSaveUserCmd;
+        private static Dictionary<string, string> dictPath;
+        private static string UserCommand { get; set; }
+        private static string[] MassUserMsg { get; set; }
+        public static void AddUserMessage (string userMessage)
         {
             MassUserMsg = userMessage.Split(' ');
            
@@ -37,7 +37,7 @@ namespace VirtualAssistant
         }    
         
         //ToDo: посмотреть и переделать
-        public string SearchCommandName()
+        public static string SearchCommandName()
         {
             foreach (var word in MassUserMsg)
             {
@@ -67,7 +67,7 @@ namespace VirtualAssistant
                 return best;
         } 
 
-        public string[] SearchingForPathFile()
+        public static string[] SearchingForPathFile()
         {
             string[] app = null;
             foreach (var word in MassUserMsg)
@@ -78,19 +78,19 @@ namespace VirtualAssistant
             return app;
         }
 
-        public void AddPathInFile(string key, string path)
+        public static void AddPathInFile(string key, string path)
         {
             dictPath.Add(key, path);
             string reading = JsonConvert.SerializeObject(dictPath);
             File.WriteAllText("../../Source/path.json", reading);
         }
 
-        public string DeleteUserCommand(string userMessage)
+        public static string DeleteUserCommand(string userMessage)
         {            
             return userMessage.Replace(UserCommand, ""); ;
         }
 
-        public string ShowPath()
+        public static string ShowPath()
         {
             string str = "";
             foreach (var item in dictPath)
