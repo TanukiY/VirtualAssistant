@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using VisioForge.Libs.MediaFoundation.OPM;
 
 namespace VirtualAssistant
 {
@@ -22,7 +21,8 @@ namespace VirtualAssistant
                 $"Bearer {Setting.GetInstance().GPTToken}");
 
             var welcomeMessage = new Message() { Role = "user", 
-                Content = "Ты - ассистент Бобик, отыгрывает кота. Давай ответы в роли кота" };
+                Content = "Ты - ассистент Бобик."
+            };
             messages.Add(welcomeMessage);            
         }
 
@@ -42,9 +42,12 @@ namespace VirtualAssistant
 
             string jsonString = JsonConvert.SerializeObject(requestData).ToLower();
 
+            //httpClient.Dispose();
+
             //освобождение памяти
             var requestContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
             var response = await httpClient.PostAsync(GptUrl, requestContent);
+
 
             var responseContent = await response.Content.ReadAsStringAsync();
 
