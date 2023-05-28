@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-using VirtualAssistant;
+﻿using VirtualAssistant;
 using NUnit.Framework;
 
 namespace Unit
@@ -11,16 +9,14 @@ namespace Unit
         [Test]
         public void TestZeroMessage()
         {
-            var b = new Bobick();
-            var ot = b.DistributionUserMessage("");
+            var ot = Bobick.DistributionUserMessage("");
             Assert.AreEqual("Вы ничего не ввели", ot);
         }
 
         [Test]
         public void TestMsgNotCmd()
         {
-            var b = new Bobick();
-            var ot = b.DistributionUserMessage("afafaf");
+            var ot = Bobick.DistributionUserMessage("afafaf");
             Assert.AreEqual("Извините, я Вас не понял, повтроите попытку", ot);
         }
     }

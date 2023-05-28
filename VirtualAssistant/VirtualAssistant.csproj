@@ -163,6 +163,9 @@
     <Compile Include="BugCatcher.cs" />
     <Compile Include="Classifier.cs" />
     <Compile Include="GptAssistent.cs" />
+    <Compile Include="MyInputBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="SpeechKit.cs" />
     <Compile Include="TrainingCommand.cs" />
     <Compile Include="Form1.cs">
