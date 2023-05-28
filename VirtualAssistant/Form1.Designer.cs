@@ -31,10 +31,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tbMsg = new System.Windows.Forms.TextBox();
             this.btnSend = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.backFromChat = new System.Windows.Forms.Panel();
+            this.GptCheckBox1 = new System.Windows.Forms.CheckBox();
             this.rtbChat = new System.Windows.Forms.RichTextBox();
-            this.btn_voice = new System.Windows.Forms.Button();
-            this.panel1.SuspendLayout();
+            this.btnVoice = new System.Windows.Forms.Button();
+            this.backFromChat.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbMsg
@@ -63,14 +64,30 @@
             this.btnSend.UseVisualStyleBackColor = true;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
-            // panel1
+            // backFromChat
             // 
-            this.panel1.BackColor = System.Drawing.Color.White;
-            this.panel1.Controls.Add(this.rtbChat);
-            this.panel1.Location = new System.Drawing.Point(16, 16);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(768, 620);
-            this.panel1.TabIndex = 3;
+            this.backFromChat.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.backFromChat.Controls.Add(this.GptCheckBox1);
+            this.backFromChat.Controls.Add(this.rtbChat);
+            this.backFromChat.Location = new System.Drawing.Point(16, 16);
+            this.backFromChat.Name = "backFromChat";
+            this.backFromChat.Size = new System.Drawing.Size(768, 620);
+            this.backFromChat.TabIndex = 3;
+            // 
+            // GptCheckBox1
+            // 
+            this.GptCheckBox1.AutoSize = true;
+            this.GptCheckBox1.Checked = true;
+            this.GptCheckBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.GptCheckBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.GptCheckBox1.ForeColor = System.Drawing.Color.Black;
+            this.GptCheckBox1.Location = new System.Drawing.Point(19, 581);
+            this.GptCheckBox1.Name = "GptCheckBox1";
+            this.GptCheckBox1.Size = new System.Drawing.Size(130, 24);
+            this.GptCheckBox1.TabIndex = 5;
+            this.GptCheckBox1.Text = "Activate GPT";
+            this.GptCheckBox1.UseVisualStyleBackColor = true;
+            this.GptCheckBox1.CheckedChanged += new System.EventHandler(this.GptCheckBox1_CheckedChanged);
             // 
             // rtbChat
             // 
@@ -83,23 +100,24 @@
             this.rtbChat.Margin = new System.Windows.Forms.Padding(7);
             this.rtbChat.Name = "rtbChat";
             this.rtbChat.ReadOnly = true;
-            this.rtbChat.Size = new System.Drawing.Size(728, 583);
+            this.rtbChat.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
+            this.rtbChat.Size = new System.Drawing.Size(728, 554);
             this.rtbChat.TabIndex = 2;
             this.rtbChat.TabStop = false;
             this.rtbChat.Text = "";
             // 
-            // btn_voice
+            // btnVoice
             // 
-            this.btn_voice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btn_voice.Location = new System.Drawing.Point(699, 676);
-            this.btn_voice.Margin = new System.Windows.Forms.Padding(7);
-            this.btn_voice.Name = "btn_voice";
-            this.btn_voice.Size = new System.Drawing.Size(85, 79);
-            this.btn_voice.TabIndex = 4;
-            this.btn_voice.Text = "Voice";
-            this.btn_voice.UseVisualStyleBackColor = true;
-            this.btn_voice.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_voice_MouseDown);
-            this.btn_voice.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btn_voice_MouseUp);
+            this.btnVoice.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnVoice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnVoice.Location = new System.Drawing.Point(699, 676);
+            this.btnVoice.Margin = new System.Windows.Forms.Padding(7);
+            this.btnVoice.Name = "btnVoice";
+            this.btnVoice.Size = new System.Drawing.Size(85, 79);
+            this.btnVoice.TabIndex = 4;
+            this.btnVoice.UseVisualStyleBackColor = false;
+            this.btnVoice.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_voice_MouseDown);
+            this.btnVoice.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btn_voice_MouseUp);
             // 
             // Form1
             // 
@@ -107,15 +125,16 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.ClientSize = new System.Drawing.Size(800, 771);
-            this.Controls.Add(this.btn_voice);
+            this.Controls.Add(this.btnVoice);
             this.Controls.Add(this.btnSend);
             this.Controls.Add(this.tbMsg);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.backFromChat);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Bobick";
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.panel1.ResumeLayout(false);
+            this.backFromChat.ResumeLayout(false);
+            this.backFromChat.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -125,9 +144,10 @@
 
         private System.Windows.Forms.TextBox tbMsg;
         private System.Windows.Forms.Button btnSend;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel backFromChat;
         private System.Windows.Forms.RichTextBox rtbChat;
-        private System.Windows.Forms.Button btn_voice;
+        private System.Windows.Forms.Button btnVoice;
+        private System.Windows.Forms.CheckBox GptCheckBox1;
     }
 }
 
